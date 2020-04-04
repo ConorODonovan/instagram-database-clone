@@ -1,5 +1,6 @@
 -- Finding the 5 oldest users
-SELECT * FROM users
+SELECT * 
+FROM users
 ORDER BY created_at
 LIMIT 5;
 
@@ -10,3 +11,10 @@ FROM users
 GROUP BY day_registered
 ORDER BY total DESC
 LIMIT 2;
+
+-- Identify inactive users (users with no photos)
+SELECT username
+FROM users
+LEFT JOIN photos
+	ON users.id = photos.user_id
+WHERE photos.id IS NULL;
