@@ -38,3 +38,23 @@ LIMIT 1;
 SELECT (SELECT COUNT(*)
 		FROM photos) / (SELECT COUNT(*)
 						FROM USERS) AS avg;
+                        
+-- Find the 5 most popular hashtags
+SELECT tags.tag_name,
+	COUNT(*) AS total
+FROM photo_tags
+	JOIN tags
+		ON photo_tags.tag_id = tags.id
+GROUP BY tags.id
+ORDER BY total DESC
+LIMIT 5;
+
+-- Finding the bots - the users who have liked every single photo
+SELECT 	username,
+		Count(*) AS num_likes
+FROM	users
+		INNER JOIN likes
+			ON users.id = likes.user_id
+GROUP BY likes.user_id
+HAVING num_likes = (SELECT Count(*)
+					FROM photos);
